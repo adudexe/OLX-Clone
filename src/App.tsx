@@ -1,25 +1,37 @@
 import { Route , Routes } from "react-router-dom"
 import { ToastContainer } from "react-toastify";
-import SignUp from "./SignUp"
 import Home from "./Pages/Home"
 import { AuthProvider } from "./Components/Context/Auth"
+import { ItemsContextProvider } from "./Components/Context/Item";
+import Details from "./Components/Details/Details";
+
 
 function App() {
   return (
     <>
       <AuthProvider>
-        <Routes>
-        <Route path="/signup" element={
-          <SignUp/>
-        } />
-        <Route path="/" element={
-          <Home/>
-        } />
-        </Routes>
+        <ItemsContextProvider>
+          <Routes>
+          <Route path="/" element={
+            <Home/>
+          } />
+          <Route path="/details" element={<Details/>} />
+          </Routes>
+        </ItemsContextProvider>
       </AuthProvider> 
       
-      <ToastContainer />
-
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        theme="dark"
+        draggable 
+        pauseOnHover 
+      />
     </>
   )
 }

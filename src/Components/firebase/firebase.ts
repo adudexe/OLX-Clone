@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { collection, Firestore, getDocs, getFirestore } from "firebase/firestore"
+import type { Item } from "../Context/Item";
 
 // Your web app's Firebase configuration
 //Should be taking from enviromnet variable .env
@@ -19,7 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+export const auth:any = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const storage = getStorage();
 export const fireStore = getFirestore();
@@ -27,17 +28,20 @@ export const fireStore = getFirestore();
 
 export const fetchFromFirestore = async () => {
     try{
-        const productsCollection = collection(fireStore,"products");
+        const productsCollection = collection(fireStore,"Products");
+        // console.log(productsCollection);
         const productSnapshot = await getDocs(productsCollection);
+        // console.log("Product Snapshot",productSnapshot);
         const productList = productSnapshot.docs.map(doc => ({
             id:doc.id, 
             ...doc.data()
-        }))
+        })) as Item[];
         console.log("Fetched products from FireStore",productList);
         return productList;
     }
     catch(err){
         console.log("Error fetching products from firestore",err);
+        return [];
 
     }
 }
