@@ -1,31 +1,54 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { Children, createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import type { User } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-interface node {
-    children:ReactNode;
+
+export interface AuthContextType {
+    user:User | null;
+    signUp:(email:string ,password:string) => Promise<any>;
+    logIn:(email:string,password:string) => Promise<any>;
+    logOut: () => Promise<void>;
 }
 
+interface AuthProviderProps {
+    children:ReactNode
+}
 
-const AuthContext = createContext<any | null>(null);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const userAuth = () => useContext(AuthContext);
+// const userAuth = () => useContext(AuthContext);
 
 
-export const AuthProvider = ({children}:node) => {
-    const [user,setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth , (currUser)=>{
-            setUser(currUser); 
-        });
-        return unsubscribe();
-    },[]);
-
-    return (
-        <AuthContext.Provider value={user}>
-            {children}
-        </AuthContext.Provider>
-    )
-
+export const AuthProvider = ({children}:AuthProviderProps) => {
+    const [user,setUser] = useState<User | null>(null); 
+    
+        useEffect(()=>{
+            const unsubscribe = onAuthStateChanged(auth,(currentUser:(User | null))=>{
+                setUser(currentUser);
+            })
+    
+            return () => unsubscribe();
+        },[]);
+    
+        
+        function signUp(email:string,password:string) {
+            return createUserWithEmailAndPassword(auth,email,password);
+        }
+      
+        function logIn(email:string,password:string){
+            return signInWithEmailAndPassword(auth,email,password);
+        }
+    
+        function logOut(){
+            return signOut(auth);
+        }
+      
+      
+        return (
+            <AuthContext.Provider value={{user,signUp,logIn,logOut}}>
+                {children}
+            </AuthContext.Provider>
+        )
 }

@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import close from '../../assets/close.svg';
 import fileUpload from '../../assets/fileUpload.svg';
 import loading from '../../assets/loading.gif';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface SellProps {
   setItems: React.Dispatch<React.SetStateAction<any[]>>;

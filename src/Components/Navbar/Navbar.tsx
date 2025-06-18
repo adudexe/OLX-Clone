@@ -4,6 +4,11 @@ import searchWt from "../../assets/search.svg";
 import arrow from "../../assets/arrow-down.svg"
 import addBtn from '../../assets/addButton.png'
 import "./Navbar.css";
+import type { AuthContextType } from "../Context/Auth";
+import { userAuth } from "../Context/context";
+import { FaUser } from 'react-icons/fa'; 
+import { toast } from "react-toastify";
+
 
 interface modal {
     toggleModal: () => void;
@@ -14,7 +19,14 @@ interface modal {
 export const Navbar = ({toggleModal,toggleSellModal}:modal) => {
   
   // const text = 
+    const { user, logOut }:AuthContextType = userAuth();
 
+    const handleLogout =  () => {
+        logOut();
+        toast.success("The user has successfully logged out");
+        return 
+    }
+    // console.log("The user Deails is",user);
 
 
   return (
@@ -36,24 +48,22 @@ export const Navbar = ({toggleModal,toggleSellModal}:modal) => {
                 </div>
 
                 <div className="mx-1 sm:ml-5 sm:mr-5 relative lang">
-                    <p className="font-bold mr-3" >English</p>
-                    <img src={arrow} alt="" className='w-5 cursor-pointer' />
+                    {!user ? (
+                    <p className='font-bold underline ml-5 cursor-pointer' style={{color: '#002f34'}} onClick={toggleModal}>Login</p>
+                 ) : (
+                    <div className='relative flex items-center border rounded-md p-2'>
+                        <FaUser/>
+                        <p style={{color: '#002f34'}} className='font-bold ml-5 cursor-pointer'>{user.displayName?.split ? user.displayName?.split(' ')[0] : user.email?.split("@")[0] }</p>
+                    </div>
+                )}
                 </div>
 
-                {/* {!user ? ( */}
-                    <p className='font-bold underline ml-5 cursor-pointer' style={{color: '#002f34'}} onClick={toggleModal}>Login</p>
-                {/* ) : ( */}
-                    <div className='relative'>
-                        {/* <p style={{color: '#002f34'}} className='font-bold ml-5 cursor-pointer'>{user.displayName?.split(' ')[0] }</p> */}
-
-                    </div>
-                {/* )} */}
-
               <img src={addBtn} 
-            //   onClick={ user ? toggleSellModal : toggleModal}
-            onClick={ toggleSellModal }
-               className='w-24 mx-1 sm:ml-5 sm:mr-5 shadow-xl rounded-full cursor-pointer'
-                alt="" />
+              onClick={ user ? toggleSellModal : toggleModal}
+              className='w-24 mx-1 sm:ml-5 sm:mr-5 shadow-xl rounded-full cursor-pointer'
+              alt="" />
+
+              {user && <button onClick={handleLogout} className="text-xl cursor-pointer">Logout</button>}
             </nav>
     <div className='w-full relative z-0 flex shadow-md p-2 pt-20 pl-10 pr-10 sm:pl-44 md:pr-44 sub-lists'>
                 <ul className='list-none flex items-center justify-between w-full'>
