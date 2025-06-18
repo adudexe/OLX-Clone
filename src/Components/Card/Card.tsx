@@ -18,7 +18,7 @@ interface CardProps {
 }
 
 
-const Card: React.FC<CardProps> = ({ items }) => {
+const Card: React.FC<CardProps> = React.memo(({ items }) => {
   
 
   console.log("items",items)
@@ -70,7 +70,7 @@ const Card: React.FC<CardProps> = ({ items }) => {
       
     </div>
   )
-};
+});
 
 export default Card;
 

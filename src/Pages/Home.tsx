@@ -5,6 +5,7 @@ import { Sell } from "../Components/Modal/Sell";
 import Card from "../Components/Card/Card";
 import { useItemsContext } from "../Components/Context/Item";
 import { fetchFromFirestore } from "../Components/firebase/firebase";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [openModal, setModal] = useState<boolean>(false);
@@ -15,18 +16,24 @@ const Home = () => {
 
   const itemsCtx = useItemsContext();
 
+  console.log(itemsCtx);
+
   useEffect(() => {
-    const getItems = async () => {
+    try{
+      const getItems = async () => {
       const datas = await fetchFromFirestore();
-      console.log(datas);
+      console.log("Data from Home Page",datas);
       if (datas) {
         itemsCtx.setItems(datas || []);
       }
-
-    };
-    getItems();
-  
-  }, []);
+      getItems();
+    }; 
+    } catch(err){
+      console.log("Error in Fetching data",err);
+      toast.error("Error in Fetching");
+      return ;
+    }
+  },[]);
 
   useEffect(() => {
     console.log("The items are", itemsCtx.items);

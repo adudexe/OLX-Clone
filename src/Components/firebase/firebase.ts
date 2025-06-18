@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { collection, Firestore, getDocs, getFirestore } from "firebase/firestore"
+import { collection, getDocs, getFirestore } from "firebase/firestore"
 import type { Item } from "../Context/Item";
 
 // Your web app's Firebase configuration
@@ -28,6 +28,7 @@ export const fireStore = getFirestore();
 
 export const fetchFromFirestore = async () => {
     try{
+        console.log('Firestore instance',fireStore);
         const productsCollection = collection(fireStore,"Products");
         // console.log(productsCollection);
         const productSnapshot = await getDocs(productsCollection);

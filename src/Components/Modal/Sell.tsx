@@ -45,7 +45,7 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
   try {
     if (image) {
-        console.log("The data of image is ",image);
+        // console.log("The data of image is ",image);
         const data = new FormData();
         data.append("file",image);
         data.append("upload_preset","olx_image");
