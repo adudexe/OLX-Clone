@@ -41,6 +41,7 @@ const Login = ({ toggleModal, status }: ModalProps) => {
     e.preventDefault();
     try{
       await signUp(email,password);
+      toggleModal();
       toast.success("Sign In Successfull");
     } catch(err) {
       console.log('Error in SignUp',err);
@@ -56,6 +57,7 @@ const Login = ({ toggleModal, status }: ModalProps) => {
         toast.success("Logged in successfully");
         setEmail("");
         setPassword("");
+        toggleModal();
       }catch(err){
         console.log("Error in Login",err);
         return toast.error("Error in Login");
@@ -140,7 +142,7 @@ const Login = ({ toggleModal, status }: ModalProps) => {
       <Modal
         theme={{
           content: {
-            base: "relative w-full p-4 md:h-auto",
+            base: "relative w-120 p-4 md:h-auto",
             inner: "relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
           },
         }}

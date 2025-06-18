@@ -11,6 +11,7 @@ const Home = () => {
   const [openModal, setModal] = useState<boolean>(false);
   const [openSellModal, setSellModal] = useState<boolean>(false);
 
+
   const toggleModal = () => setModal((prev) => !prev);
   const toggleSellModal = () => setSellModal((prev) => !prev);
 
@@ -19,20 +20,20 @@ const Home = () => {
   console.log(itemsCtx);
 
   useEffect(() => {
+    const getItems = async () => {
     try{
-      const getItems = async () => {
       const datas = await fetchFromFirestore();
       console.log("Data from Home Page",datas);
       if (datas) {
         itemsCtx.setItems(datas || []);
       }
-      getItems();
-    }; 
     } catch(err){
       console.log("Error in Fetching data",err);
       toast.error("Error in Fetching");
       return ;
     }
+  }; 
+  getItems();
   },[]);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const Home = () => {
       <Navbar toggleModal={toggleModal} toggleSellModal={toggleSellModal} />
       <Login toggleModal={toggleModal} status={openModal} />
       <Sell
-        setItems={itemsCtx.setItems}
+        // setItems={itemsCtx.setItems}
         toggleSellModal={toggleSellModal}
         status={openSellModal}
       />

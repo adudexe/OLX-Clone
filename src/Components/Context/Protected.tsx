@@ -7,7 +7,7 @@ const Protected:React.FC<{children:ReactNode}> = ({children}) => {
     const { user } = userAuth();
     
     if(!user){
-        return <Navigate to="/login"/>
+        return <Navigate to="/"/>
     }
 
     return children

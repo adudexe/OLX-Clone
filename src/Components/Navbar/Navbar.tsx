@@ -8,6 +8,7 @@ import type { AuthContextType } from "../Context/Auth";
 import { userAuth } from "../Context/context";
 import { FaUser } from 'react-icons/fa'; 
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 interface modal {
@@ -33,7 +34,9 @@ export const Navbar = ({toggleModal,toggleSellModal}:modal) => {
 
     <div >
         <nav className="fixed z-50 w-full overflow-auto p-2 pl-3 pr-3 shadow-md bg-slate-100 border-b-4 border-solid border-b-white">
-                <img src={logo} alt="" className='w-12 ' />
+                <Link to={"/"}>
+                    <img src={logo} alt="" className='w-12 ' />
+                </Link>
                 <div className='relative location-search  ml-5'>
                     <img src={search} alt="" className='absolute top-4 left-2 w-5' />
                     <input placeholder='Search city, area, or locality...' className='w-[50px] sm:w-[150px] md:w-[250] lg:w-[270px] p-3 pl-8 pr-8 border-black border-solid border-2 rounded-md placeholder:text-ellipsis focus:outline-none focus:border-teal-300' type="text" />
@@ -51,10 +54,12 @@ export const Navbar = ({toggleModal,toggleSellModal}:modal) => {
                     {!user ? (
                     <p className='font-bold underline ml-5 cursor-pointer' style={{color: '#002f34'}} onClick={toggleModal}>Login</p>
                  ) : (
-                    <div className='relative flex items-center border rounded-md p-2'>
-                        <FaUser/>
-                        <p style={{color: '#002f34'}} className='font-bold ml-5 cursor-pointer'>{user.displayName?.split ? user.displayName?.split(' ')[0] : user.email?.split("@")[0] }</p>
-                    </div>
+                    <Link to={`/profile`}>
+                        <div className='relative flex items-center border rounded-md p-2'>
+                            <FaUser/>
+                            <p style={{color: '#002f34'}} className='font-bold ml-5 cursor-pointer'>{user.displayName?.split ? user.displayName?.split(' ')[0] : user.email?.split("@")[0] }</p>
+                        </div>
+                    </Link>
                 )}
                 </div>
 

@@ -6,6 +6,7 @@ import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { collection, getDocs, getFirestore } from "firebase/firestore"
 import type { Item } from "../Context/Item";
+import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 //Should be taking from enviromnet variable .env
@@ -22,17 +23,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
-export const storage = getStorage();
-export const fireStore = getFirestore();
+export const storage = getStorage(app);
+export const fireStore = getFirestore(app);
+export const db = getDatabase(app);
 
 
 export const fetchFromFirestore = async () => {
     try{
         console.log('Firestore instance',fireStore);
-        const productsCollection = collection(fireStore,"Products");
-        // console.log(productsCollection);
+        const productsCollection = collection(fireStore,"products");
         const productSnapshot = await getDocs(productsCollection);
-        // console.log("Product Snapshot",productSnapshot);
         const productList = productSnapshot.docs.map(doc => ({
             id:doc.id, 
             ...doc.data()

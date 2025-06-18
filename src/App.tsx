@@ -5,7 +5,7 @@ import { AuthProvider } from "./Components/Context/Auth"
 import { ItemsContextProvider } from "./Components/Context/Item";
 import Details from "./Components/Details/Details";
 import Protected from "./Components/Context/Protected";
-import { Profile } from "./Pages/Profile";
+import  {Profile}  from "./Pages/Profile";
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
           <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/details" element={<Details/>} />
-          <Route path="/profile/:id" element={
+          <Route path="/profile/" element={
             <Protected>
               <Profile/>
             </Protected>

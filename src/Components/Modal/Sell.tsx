@@ -7,20 +7,22 @@ import { toast } from "react-toastify";
 import close from '../../assets/close.svg';
 import fileUpload from '../../assets/fileUpload.svg';
 import loading from '../../assets/loading.gif';
+import { useItemsContext } from "../Context/Item";
 
 interface SellProps {
-  setItems: React.Dispatch<React.SetStateAction<any[]>>;
   toggleSellModal: () => void;
   status: boolean;
 }
 
-export const Sell = ({ toggleSellModal, status, setItems }: SellProps) => {
+export const Sell = ({ toggleSellModal, status }: SellProps) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [image, setImage] = useState<File | null>(null);
+
+  const item = useItemsContext();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -78,7 +80,10 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     });
 
     const datas = await fetchFromFirestore();
-    setItems(datas);
+    
+    console.log(datas);
+    
+    item.setItems(datas);
 
     setTitle("");
     setCategory("");
@@ -100,7 +105,7 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     <Modal
       theme={{
         content: {
-          base: "relative w-full p-4 md:h-auto",
+          base: "relative w-120 p-4 md:h-auto",
           inner: "relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
         },
       }}

@@ -11,7 +11,7 @@ import { fireStore } from "../firebase/firebase";
 export interface Item {
   id: string;
   title: string;
-  price: number;
+  price: string;
   category:string;
   image?:any;
   description?: string;

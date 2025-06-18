@@ -6,7 +6,7 @@ import Favorite from "../../assets/favorite.svg"
 interface Item {
   id: string;
   title: string;
-  price: number;
+  price: string;
   imageUrl?:any
   category:string;
   description?: string;
@@ -18,7 +18,7 @@ interface CardProps {
 }
 
 
-const Card: React.FC<CardProps> = React.memo(({ items }) => {
+const Card: React.FC<CardProps> = ({ items }) => {
   
 
   console.log("items",items)
@@ -70,7 +70,7 @@ const Card: React.FC<CardProps> = React.memo(({ items }) => {
       
     </div>
   )
-});
+};
 
 export default Card;
 
